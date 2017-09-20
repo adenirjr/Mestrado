@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<root>
+	<LicitacaoVencedor cdIBGE="410020"
+		nmMunicipio="ADRIANÓPOLIS                            " idPessoa="12176"
+		nmEntidade="MUNICÍPIO DE ADRIANÓPOLIS                                                                           "
+		idlicitacao="750964" nrAnoLicitacao="2014" nrLicitacao="1"
+		dsModalidadeLicitacao="Processo Dispensa" nmPessoa="OSNI JOSE PEREIRA DA FONSECA"
+		nrDocumento="***.810.***-**" nrLote="1" nrItem="1" nrQuantidade="12.000"
+		idUnidadeMedida="999" dsUnidadeMedida="Outras Unidades e Medidas"
+		vlMinimoUnitarioItem="0.00000" vlMinimoTotal="0.00"
+		vlMaximoUnitarioitem="840.00000" vlMaximoTotal="10080.00"
+		dsItem="LOCAÇÃO DE IMOVEL PARA O CONSELHO TUTELAR" dsFormaPagamento="MENSAL"
+		nrPrazoLimiteEntrega="0" idTipoEntregaProduto="2"
+		dsTipoEntregaProduto="Parcelada" nrQuantidadePropostaLicitacao="12.000"
+		vlPropostaItem="840.00" dtValidadeProposta="2014-03-13T00:00:00"
+		dtPrazoEntregaPropostaLicitacao="2015-01-13T00:00:00"
+		nrQuantidadeVencedorLicitacao="12.000" vlLicitacaoVencedorLicitacao="840.00"
+		nrClassificacao="1" dtHomologacao="2014-01-13T00:00:00"
+		ultimoEnvioSIMAMNesteExercicio="2014/13" DataReferencia="2017/09 " />
+</root>
