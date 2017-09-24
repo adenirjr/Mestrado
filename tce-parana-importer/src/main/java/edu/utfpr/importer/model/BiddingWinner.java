@@ -16,6 +16,7 @@ public class BiddingWinner {
 	@EmbeddedId
 	private BiddingWinnerId pk = new BiddingWinnerId();
 
+	private String descItem; //dsItem
 	private String amount; // nrQuantidadeVencedorLicitacao
 	private String itemPrice; // vlLicitacaoVencedorLicitacao
 
@@ -42,8 +43,16 @@ public class BiddingWinner {
 	public void setItemPrice(String itemPrice) {
 		this.itemPrice = itemPrice;
 	}
+	
+	public String getDescItem() {
+        return descItem;
+    }
 
-	@Override
+    public void setDescItem(String descItem) {
+        this.descItem = descItem;
+    }
+
+    @Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

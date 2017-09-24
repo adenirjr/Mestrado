@@ -36,6 +36,9 @@ public class BiddingSAXHandler extends GenericHandler<Bidding> {
             bid.setDescription(attributes.getValue("dsObjeto"));
             bid.setEvaluationCriteria(attributes.getValue("dsAvaliacaoLicitacao"));
             bid.setClassification(attributes.getValue("dsClassificacaoObjetoLicitacao"));
+            bid.setDescObject(attributes.getValue("dsObjeto"));
+            bid.setDescExecution(attributes.getValue("dsRegimeExecucaoLicitacao"));
+            bid.setTotal(attributes.getValue("vlLicitacao"));
             
             try {
 				bid.setStart(FORMAT_DATE.parse(attributes.getValue("dtAbertura")));

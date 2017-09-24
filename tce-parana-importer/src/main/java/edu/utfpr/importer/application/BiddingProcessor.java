@@ -5,19 +5,22 @@ import java.io.File;
 import edu.utfpr.importer.helper.FileHelper;
 import edu.utfpr.importer.service.BiddingParticipantService;
 import edu.utfpr.importer.service.BiddingService;
+import edu.utfpr.importer.service.BiddingWinnerService;
 
 /**
  * Unpack files from FILE_DIRECTORY into UNZIPPED_FILES_DIRECTORY. Parse data from TARGET_UNZIPPED_FILE and save into database.
  */
 public class BiddingProcessor {
 
-    private static final String FILE_DIRECTORY = "C:/Users/Adenir/Downloads/licitacoes/2014";
+    private static final String FILE_DIRECTORY = "C:/Users/a026710/Downloads/licitacoes/2014";
     private static final String UNZIPPED_FILES_DIRECTORY = "/../Temp";
     private static final String BIDDING_UNZIPPED_FILE = "Licitacao.xml";
     private static final String PARTICIPANTS_UNZIPPED_FILE = "LicitacaoParticipante.xml";
+    private static final String WINNER_UNZIPPED_FILE = "LicitacaoVencedor.xml";
     
     private final BiddingService biddingService = new BiddingService();
     private final BiddingParticipantService biddingParticipantService = new BiddingParticipantService();
+    private final BiddingWinnerService biddingWinnerService = new BiddingWinnerService();
     
 
     public static void main(String[] args) {
@@ -47,6 +50,7 @@ public class BiddingProcessor {
                 
                 processBidding(unzippedFilesDir, BIDDING_UNZIPPED_FILE);
                 processParticipants(unzippedFilesDir, PARTICIPANTS_UNZIPPED_FILE);
+                processWinners(unzippedFilesDir, WINNER_UNZIPPED_FILE);
                 
                 FileHelper.cleanDirectory(FILE_DIRECTORY + UNZIPPED_FILES_DIRECTORY);
                 
@@ -71,5 +75,12 @@ public class BiddingProcessor {
     	final String targetXMLFile = FileHelper.getTargetFileName(path, fileName);
         FileHelper.clearEntityReferences(path, targetXMLFile);
         biddingParticipantService.saveXMLContent(path, targetXMLFile);
+    }
+    
+    private void processWinners(final String path, final String fileName) {
+        System.out.print("Saving Winners .... ");
+        final String targetXMLFile = FileHelper.getTargetFileName(path, fileName);
+        FileHelper.clearEntityReferences(path, targetXMLFile);
+        biddingWinnerService.saveXMLContent(path, targetXMLFile);
     }
 }
