@@ -1,7 +1,7 @@
 <html>
 <head>
 <!DOCTYPE html>
-<svg width="1280" height="1280" font-family="sans-serif" font-size="10" text-anchor="middle"></svg>
+<svg width="960" height="960" font-family="sans-serif" font-size="10" text-anchor="middle"></svg>
 <script src="../../d3.v4.min.js"></script>
 <script>
 
@@ -11,26 +11,24 @@ var svg = d3.select("svg"),
 
 var format = d3.format(",d");
 
-var color = d3.scaleOrdinal(d3.schemeCategory20c);
+var color = d3.scaleOrdinal(d3.schemeCategory10);
 
 var pack = d3.pack()
     .size([width, height])
     .padding(1.5);
 
 d3.csv("winners.csv", function(d) {
-  d.value = +d.value;
-  if (d.value) return d;
+  d.value = +d.count;
+  if (d.count) return d;
 }, function(error, classes) {
   if (error) throw error;
 
   var root = d3.hierarchy({children: classes})
-      .sum(function(d) { return d.value; })
+      .sum(function(d) { return d.count; })
       .each(function(d) {
-        if (id = d.data.id) {
-          var id, i = id.lastIndexOf(".");
-          d.id = id;
+          d.id = d.data.documentnumber;
 		  d.name = d.data.name;
-        }
+		  d.class = d.data.classification;
       });
 
   var node = svg.selectAll(".node")
@@ -42,7 +40,7 @@ d3.csv("winners.csv", function(d) {
   node.append("circle")
       .attr("id", function(d) { return d.id; })
       .attr("r", function(d) { return d.r; })
-      .style("fill", function(d) { return color(d.id); });
+      .style("fill", function(d) { return color(d.class); });
 
   node.append("clipPath")
       .attr("id", function(d) { return "clip-" + d.id; })
@@ -50,7 +48,7 @@ d3.csv("winners.csv", function(d) {
       .attr("xlink:href", function(d) { return "#" + d.id; });
 
   node.append("title")
-      .text(function(d) { return "Document: " + d.id + "\nNome: " + d.name + " \nVenceu: " +d.value; });
+      .text(function(d) { return "Document: " + d.id + "\nNome: " + d.name + "\nClass: " + d.class + " \nVenceu: " + d.value; });
 });
 
 </script>
