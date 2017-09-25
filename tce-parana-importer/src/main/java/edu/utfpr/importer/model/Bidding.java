@@ -33,10 +33,7 @@ public class Bidding {
 	private String evaluationCriteria; // dsAvaliacaoLicitacao
 	private String classification; // dsClassificacaoObjetoLicitacao
 	private String descExecution; // dsRegimeExecucaoLicitacao
-	private String total; // vlLicitacao
-
-	@Column(length=2000)
-	private String descObject; // dsObjeto
+	private Double total; // vlLicitacao
 
 	@ManyToOne(optional = false)
 	@JoinColumns({@JoinColumn(name="city"), @JoinColumn(name="state")})
@@ -144,14 +141,6 @@ public class Bidding {
 		this.winners = winners;
 	}
 
-	public String getDescObject() {
-        return descObject;
-    }
-
-    public void setDescObject(String descObject) {
-        this.descObject = descObject;
-    }
-
     public String getDescExecution() {
         return descExecution;
     }
@@ -160,15 +149,15 @@ public class Bidding {
         this.descExecution = descExecution;
     }
 
-    public String getTotal() {
-        return total;
-    }
+    public Double getTotal() {
+		return total;
+	}
 
-    public void setTotal(String total) {
-        this.total = total;
-    }
+	public void setTotal(Double total) {
+		this.total = total;
+	}
 
-    @Override
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

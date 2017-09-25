@@ -17,8 +17,8 @@ public class BiddingWinner {
 	private BiddingWinnerId pk = new BiddingWinnerId();
 
 	private String descItem; //dsItem
-	private String amount; // nrQuantidadeVencedorLicitacao
-	private String itemPrice; // vlLicitacaoVencedorLicitacao
+	private Double amount; // nrQuantidadeVencedorLicitacao
+	private Double itemPrice; // vlLicitacaoVencedorLicitacao
 
 	public BiddingWinnerId getPk() {
 		return pk;
@@ -28,22 +28,22 @@ public class BiddingWinner {
 		this.pk = pk;
 	}
 
-	public String getAmount() {
+	public Double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(String amount) {
+	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
 
-	public String getItemPrice() {
+	public Double getItemPrice() {
 		return itemPrice;
 	}
 
-	public void setItemPrice(String itemPrice) {
+	public void setItemPrice(Double itemPrice) {
 		this.itemPrice = itemPrice;
 	}
-	
+
 	public String getDescItem() {
         return descItem;
     }

@@ -3,29 +3,44 @@ package edu.utfpr.importer.application;
 import java.io.File;
 
 import edu.utfpr.importer.helper.FileHelper;
-import edu.utfpr.importer.service.BiddingParticipantService;
+import edu.utfpr.importer.model.Bidding;
+import edu.utfpr.importer.model.BiddingParticipant;
+import edu.utfpr.importer.model.BiddingWinner;
+import edu.utfpr.importer.persistence.provider.HibernateProvider;
+import edu.utfpr.importer.service.BiddingParticipantServiceImpl;
 import edu.utfpr.importer.service.BiddingService;
-import edu.utfpr.importer.service.BiddingWinnerService;
+import edu.utfpr.importer.service.BiddingServiceImpl;
+import edu.utfpr.importer.service.BiddingWinnerServiceImpl;
 
 /**
  * Unpack files from FILE_DIRECTORY into UNZIPPED_FILES_DIRECTORY. Parse data from TARGET_UNZIPPED_FILE and save into database.
  */
 public class BiddingProcessor {
 
-    private static final String FILE_DIRECTORY = "C:/Users/a026710/Downloads/licitacoes/2014";
+    private static final String FILE_DIRECTORY = "C:/Users/Adenir/Downloads/licitacoes/2014";
     private static final String UNZIPPED_FILES_DIRECTORY = "/../Temp";
     private static final String BIDDING_UNZIPPED_FILE = "Licitacao.xml";
     private static final String PARTICIPANTS_UNZIPPED_FILE = "LicitacaoParticipante.xml";
     private static final String WINNER_UNZIPPED_FILE = "LicitacaoVencedor.xml";
     
-    private final BiddingService biddingService = new BiddingService();
-    private final BiddingParticipantService biddingParticipantService = new BiddingParticipantService();
-    private final BiddingWinnerService biddingWinnerService = new BiddingWinnerService();
-    
+    private final BiddingService<Bidding> biddingService = new BiddingServiceImpl();
+    private final BiddingService<BiddingParticipant> biddingParticipantService = new BiddingParticipantServiceImpl();
+    private final BiddingService<BiddingWinner> biddingWinnerService = new BiddingWinnerServiceImpl();
 
     public static void main(String[] args) {
         BiddingProcessor reader = new BiddingProcessor();
+        
+        HibernateProvider.getInstance().createEntityManagerFactory();
+        
         reader.init();
+        
+        HibernateProvider.getInstance().close();
+    }
+    
+    @Override
+    protected void finalize() throws Throwable {
+    	System.out.println("finilized");
+    	super.finalize();
     }
 
     public void init() {
@@ -40,7 +55,7 @@ public class BiddingProcessor {
                     continue;
                 }
                 
-                System.out.print("Processing " + file.getName() + " (" + counter + " of " + dir.listFiles().length + ") ... ");
+                System.out.print("Processing " + file.getName() + " (" + counter + " of " + dir.listFiles().length + "): ");
                 
                 final String unzippedFilesDir = FILE_DIRECTORY + UNZIPPED_FILES_DIRECTORY;
                 
@@ -48,9 +63,9 @@ public class BiddingProcessor {
                 
                 FileHelper.unzipfile(unzippedFilesDir, file);
                 
-                processBidding(unzippedFilesDir, BIDDING_UNZIPPED_FILE);
-                processParticipants(unzippedFilesDir, PARTICIPANTS_UNZIPPED_FILE);
-                processWinners(unzippedFilesDir, WINNER_UNZIPPED_FILE);
+                processBidding(unzippedFilesDir, BIDDING_UNZIPPED_FILE, biddingService);
+                processBidding(unzippedFilesDir, PARTICIPANTS_UNZIPPED_FILE, biddingParticipantService);
+                processBidding(unzippedFilesDir, WINNER_UNZIPPED_FILE, biddingWinnerService);
                 
                 FileHelper.cleanDirectory(FILE_DIRECTORY + UNZIPPED_FILES_DIRECTORY);
                 
@@ -63,24 +78,23 @@ public class BiddingProcessor {
         System.out.println("Tempo: " + estimatedTime / 1000 + " Segundos");
     }
     
-    private void processBidding(final String path, final String fileName) {
-    	System.out.print("Saving Bidding .... ");
+    /**
+     * Parse XML Bidding information and save into database.
+     * 
+     * @param path
+     * @param fileName
+     */
+    @SuppressWarnings("rawtypes")
+	private void processBidding(final String path, final String fileName, final BiddingService service) {
+    	System.out.print(" " + service.toString() + " .");
     	final String targetXMLFile = FileHelper.getTargetFileName(path, fileName);
+    	
+    	System.out.print("..");
         FileHelper.clearEntityReferences(path, targetXMLFile);
-        biddingService.saveXMLContent(path, targetXMLFile);
-    }
-    
-    private void processParticipants(final String path, final String fileName) {
-    	System.out.print("Saving Participants .... ");
-    	final String targetXMLFile = FileHelper.getTargetFileName(path, fileName);
-        FileHelper.clearEntityReferences(path, targetXMLFile);
-        biddingParticipantService.saveXMLContent(path, targetXMLFile);
-    }
-    
-    private void processWinners(final String path, final String fileName) {
-        System.out.print("Saving Winners .... ");
-        final String targetXMLFile = FileHelper.getTargetFileName(path, fileName);
-        FileHelper.clearEntityReferences(path, targetXMLFile);
-        biddingWinnerService.saveXMLContent(path, targetXMLFile);
+        
+        System.out.print("...");
+        service.saveXMLContent(path, targetXMLFile);
+        
+        System.out.print("....");
     }
 }

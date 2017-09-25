@@ -24,8 +24,8 @@ public class BiddingWinnerSAXHandler extends GenericHandler<BiddingWinner> {
 			
 			biddingWinner.getPk().setItemNumber(attributes.getValue("nrItem"));
 			biddingWinner.getPk().setLotNumber(attributes.getValue("nrLote"));
-			biddingWinner.setAmount(attributes.getValue("nrQuantidadeVencedorLicitacao"));
-			biddingWinner.setItemPrice(attributes.getValue("vlLicitacaoVencedorLicitacao"));
+			biddingWinner.setAmount(Double.parseDouble(attributes.getValue("nrQuantidadeVencedorLicitacao")));
+			biddingWinner.setItemPrice(Double.parseDouble(attributes.getValue("vlLicitacaoVencedorLicitacao")));
 			biddingWinner.setDescItem(attributes.getValue("dsItem"));
 
 			String documentNumber = attributes.getValue("nrDocumento");

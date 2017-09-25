@@ -9,7 +9,7 @@ import edu.utfpr.importer.parser.SAXParser;
 import edu.utfpr.importer.persistence.provider.HibernateProvider;
 import edu.utfpr.importer.xml.handler.BiddingParticipantSAXHandler;
 
-public class BiddingParticipantService {
+public class BiddingParticipantServiceImpl implements BiddingService<BiddingParticipant>{
 
 	private final SAXParser<BiddingParticipant> xmlParser = new SAXParser<BiddingParticipant>();
 	private final EntityManager entityManager = HibernateProvider.getInstance().getEntityManager();
@@ -47,5 +47,10 @@ public class BiddingParticipantService {
 	@Override
 	protected void finalize() throws Throwable {
 		entityManager.close();
+	}
+	
+	@Override
+	public String toString() {
+		return "Participants";
 	}
 }
