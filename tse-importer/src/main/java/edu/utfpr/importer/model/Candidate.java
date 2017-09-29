@@ -3,35 +3,37 @@ package edu.utfpr.importer.model;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "CANDIDATE")
 public class Candidate {
 
-	@Id
-	private Long id;
+	@EmbeddedId
+	private CandidateId id;
 
-	@ManyToOne
-	@JoinColumn(name = "cpf")
-	private Individual individual;
-
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name = "vicedocumentnumber")
 	private Individual vice;
 
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="corporatedocumentnumber")
 	private Corporate corporate; // CNPJ do candidato
 
 	@OneToMany(mappedBy = "candidate")
 	private Set<Donation> donations;
 
-	private Long electionCode; // Código identificador da Eleição
+	private String electionCode; // Código identificador da Eleição
 	private String electionDesc; // Descrição da Eleição
 	private Date creationDateTime; // Data e hora de geração da informação
-	private Long candidateSeq; // Sequencial do candidato na base de dados da
+	private String candidateSeq; // Sequencial do candidato na base de dados da
 								// Justiça Eleitoral
 	private String state; // Unidade da Federação do candidato
 	private String city; // Município de registro da candidatura
@@ -42,24 +44,16 @@ public class Candidate {
 	private String role; // Candidatura a qual concorre o candidato registrado
 							// na Justiça Eleitoral.
 
-	public Long getId() {
+	public Individual getVice() {
+		return vice;
+	}
+
+	public CandidateId getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(CandidateId id) {
 		this.id = id;
-	}
-
-	public Individual getIndividual() {
-		return individual;
-	}
-
-	public void setIndividual(Individual individual) {
-		this.individual = individual;
-	}
-
-	public Individual getVice() {
-		return vice;
 	}
 
 	public void setVice(Individual vice) {
@@ -82,11 +76,11 @@ public class Candidate {
 		this.donations = donations;
 	}
 
-	public Long getElectionCode() {
+	public String getElectionCode() {
 		return electionCode;
 	}
 
-	public void setElectionCode(Long electionCode) {
+	public void setElectionCode(String electionCode) {
 		this.electionCode = electionCode;
 	}
 
@@ -106,11 +100,11 @@ public class Candidate {
 		this.creationDateTime = creationDateTime;
 	}
 
-	public Long getCandidateSeq() {
+	public String getCandidateSeq() {
 		return candidateSeq;
 	}
 
-	public void setCandidateSeq(Long candidateSeq) {
+	public void setCandidateSeq(String candidateSeq) {
 		this.candidateSeq = candidateSeq;
 	}
 

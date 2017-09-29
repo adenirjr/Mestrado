@@ -2,10 +2,12 @@ package edu.utfpr.importer.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -20,12 +22,12 @@ public class Donation {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@ManyToOne
-	@JoinColumn(name = "candidateId")
+	@ManyToOne(cascade=CascadeType.PERSIST)
+	@JoinColumns({@JoinColumn(name="candidatedocumentnumber"), @JoinColumn(name="year")})
 	private Candidate candidate;
 
-	@OneToOne
-	@JoinColumn(name = "documentnumber")
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name = "donatordocumentnumber")
 	private Entity donator;
 
 	private String transactionNumber; // Número do documento referente à

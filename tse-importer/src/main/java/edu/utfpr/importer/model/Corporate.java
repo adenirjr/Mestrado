@@ -12,6 +12,15 @@ public class Corporate extends edu.utfpr.importer.model.Entity {
 	private String title;
 	private String status;
 	private Date openingDate;
+	
+	public Corporate() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Corporate(final String docNumber, final String name) {
+		this.setDocumentNumber(docNumber);
+		this.setName(name);
+	}
 
 	public String getStatus() {
 		return status;
