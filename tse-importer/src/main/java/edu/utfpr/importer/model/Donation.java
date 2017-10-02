@@ -2,7 +2,6 @@ package edu.utfpr.importer.model;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,43 +15,33 @@ import javax.persistence.Table;
 @Table(name = "DONATION")
 public class Donation {
 
-	//TODO MAPEAR DOAÇAO ENTRE CANDIDATOS	
+	//TODO MAPEAR DOACAO ENTRE CANDIDATOS	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@ManyToOne(cascade=CascadeType.PERSIST)
+	@ManyToOne
 	@JoinColumns({@JoinColumn(name="candidatedocumentnumber"), @JoinColumn(name="year")})
 	private Candidate candidate;
 
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "donatordocumentnumber")
 	private Entity donator;
 
-	private String transactionNumber; // Número do documento referente à
-										// transação bancária ou comprovante da
-										// doação estimável
-	private String state; // Sigla da unidade da federação do doador, se
-							// candidato ou direção partidária
-	private String party; // Número do partido do doador, se candidato ou
-							// direção partidária
-	private String CNAE; // Código CNAE do doador, se pessoa jurídica
-	private Date donationDate; // Data da doação declarada à Justiça Eleitoral
+	private String transactionNumber; 
+										
+	private String state; 
+	private String party; 
+	private String CNAE; 
+	private Date donationDate; 
 	private String incomeValue;
-	private String incomeType; // Tipo da doação, podendo ser “Recursos
-								// Próprios”, “Recursos de Pessoas Físicas”,
-								// “Doações pela internet”, “Recursos de Outros
-								// Candidatos”, “Recursos de Partidos
-								// Políticos”, “Recursos de Origem Não
-								// Identificada”, “Comercialização de bens ou
-								// realização de eventos”, “Rendimentos de
-								// aplicações financeiras”
-	private String incomeSource; // Fonte do recurso da doação, podendo ser
-									// “Fundo Partidário” ou “Outros Recursos”
-	private String incomeFormat; // spécie do recurso da doação
-	private String incomeDesc; // Descrição da doação quando esta for estimável
-								// em dinheiro
+	private String incomeType; 
+	private String incomeSource;
+								
+	private String incomeFormat; 
+	private String incomeDesc; 
+								
 
 	public Long getId() {
 		return id;

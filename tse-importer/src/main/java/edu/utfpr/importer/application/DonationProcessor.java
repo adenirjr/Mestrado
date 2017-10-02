@@ -9,78 +9,83 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.utfpr.importer.builder.DonationBuilder;
+import edu.utfpr.importer.persistence.provider.HibernateProvider;
 import edu.utfpr.importer.service.DonationService;
 
 public class DonationProcessor {
 
-	private static final Long YEAR = 2014l;
-	private static final String PATH = "C:/Users/Adenir/Downloads/prestacao_contas/";
-	private static final String CSV_FILE_NAME = "receitas_candidatos_2014_brasil.txt";
-	private static final String SEPARATOR = "\";\"";
-	
-	private final DonationService donationService = new DonationService();
+    private static final Long YEAR = 2014l;
+    private static final String PATH = "C:/Users/a026710/Downloads/prestacao_contas";
+    private static final String CSV_FILE_NAME = "receitas_candidatos_2014_brasil.txt";
+    private static final String SEPARATOR = "\";\"";
 
-	public static void main(String args[]) {
-		final long start = System.currentTimeMillis();
+    private final DonationService donationService = new DonationService();
 
-		final DonationProcessor processor = new DonationProcessor();
-		processor.init();
+    public static void main(String args[]) {
+        final long start = System.currentTimeMillis();
 
-		final long end = System.currentTimeMillis();
-		System.out.println("Tempo: " + (end - start) / 1000 + " Segundos");
-	}
+        final DonationProcessor processor = new DonationProcessor();
+        processor.init();
 
-	private void init() {
-		final String[] metadata = getCSVHeader(PATH, CSV_FILE_NAME);
-		
-		saveLineByLine(PATH, CSV_FILE_NAME, metadata);
-	}
+        final long end = System.currentTimeMillis();
+        System.out.println("Tempo: " + (end - start) / 1000 + " Segundos");
+    }
 
-	/**
-	 * @param filePath
-	 * @param fileName
-	 * @param metadata
-	 */
-	private void saveLineByLine(final String filePath, final String fileName, final String[] metadata) {
-		try {
-			final Path path = Paths.get(filePath, fileName);
-			Files.lines(path, StandardCharsets.ISO_8859_1).skip(1).map(line -> {
-				final Map<String, String> keyValue = new HashMap<String, String>();
-				final String[] values = line.split(SEPARATOR);
+    private void init() {
+        final String[] metadata = getCSVHeader(PATH, CSV_FILE_NAME);
 
-				int index = 0;
-				for (String value : values) {
-					keyValue.put(metadata[index], value.replaceAll("\"", ""));
-					index++;
-				}
-				return keyValue;
-			}).forEach(m -> {
-				donationService.save(new DonationBuilder().setAttributes(m).setYear(YEAR).build());
-			});
+        HibernateProvider.getInstance().createEntityManagerFactory();
 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+        saveLineByLine(PATH, CSV_FILE_NAME, metadata);
 
-	/**
-	 * The file's first line MUST be the attribute names.
-	 * 
-	 * @return
-	 */
-	private String[] getCSVHeader(final String filePath, final String fileName) {
-		try {
-			final Path path = Paths.get(filePath, fileName);
-			String firstLine = Files.lines(path, StandardCharsets.ISO_8859_1).findFirst().get();
+        HibernateProvider.getInstance().close();
+    }
 
-			return firstLine.replaceAll("\"", "").split(";");
+    /**
+     * @param filePath
+     * @param fileName
+     * @param metadata
+     */
+    private void saveLineByLine(final String filePath, final String fileName, final String[] metadata) {
+        try {
+            final Path path = Paths.get(filePath, fileName);
+            Files.lines(path, StandardCharsets.ISO_8859_1).skip(1).map(line -> {
+                final Map<String, String> keyValue = new HashMap<String, String>();
+                final String[] values = line.split(SEPARATOR);
 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+                int index = 0;
+                for (String value : values) {
+                    keyValue.put(metadata[index], value.replaceAll("\"", ""));
+                    index++;
+                }
+                return keyValue;
+            }).forEach(m -> {
+                donationService.save(new DonationBuilder().setAttributes(m).setYear(YEAR).build());
+            });
 
-		return null;
-	}
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * The file's first line MUST be the attribute names.
+     * 
+     * @return
+     */
+    private String[] getCSVHeader(final String filePath, final String fileName) {
+        try {
+            final Path path = Paths.get(filePath, fileName);
+            String firstLine = Files.lines(path, StandardCharsets.ISO_8859_1).findFirst().get();
+
+            return firstLine.replaceAll("\"", "").split(";");
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

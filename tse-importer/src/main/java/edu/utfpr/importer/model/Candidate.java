@@ -19,30 +19,30 @@ public class Candidate {
 	@EmbeddedId
 	private CandidateId id;
 
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "vicedocumentnumber")
 	private Individual vice;
 
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name="corporatedocumentnumber")
 	private Corporate corporate; // CNPJ do candidato
 
 	@OneToMany(mappedBy = "candidate")
 	private Set<Donation> donations;
 
-	private String electionCode; // Código identificador da Eleição
-	private String electionDesc; // Descrição da Eleição
-	private Date creationDateTime; // Data e hora de geração da informação
+	private String electionCode; // Cï¿½digo identificador da Eleiï¿½ï¿½o
+	private String electionDesc; // Descriï¿½ï¿½o da Eleiï¿½ï¿½o
+	private Date creationDateTime; // Data e hora de geraï¿½ï¿½o da informaï¿½ï¿½o
 	private String candidateSeq; // Sequencial do candidato na base de dados da
-								// Justiça Eleitoral
-	private String state; // Unidade da Federação do candidato
-	private String city; // Município de registro da candidatura
-	private String party; // Sigla da legenda partidária do candidato registrado
-							// na Justiça Eleitoral
-	private String candidateCode; // Número do candidato registrado na Justiça
+								// Justiï¿½a Eleitoral
+	private String state; // Unidade da Federaï¿½ï¿½o do candidato
+	private String city; // Municï¿½pio de registro da candidatura
+	private String party; // Sigla da legenda partidï¿½ria do candidato registrado
+							// na Justiï¿½a Eleitoral
+	private String candidateCode; // Nï¿½mero do candidato registrado na Justiï¿½a
 									// Eleitoral
 	private String role; // Candidatura a qual concorre o candidato registrado
-							// na Justiça Eleitoral.
+							// na Justiï¿½a Eleitoral.
 
 	public Individual getVice() {
 		return vice;
