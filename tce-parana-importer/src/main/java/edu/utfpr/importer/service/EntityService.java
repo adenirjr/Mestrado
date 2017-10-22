@@ -12,9 +12,8 @@ public class EntityService {
 
 	public void save(final Entity entity) {
 		try {
-			updateDocumentNumber(entity);
-			
 			entityManager.getTransaction().begin();
+			updateDocumentNumber(entity);
 			entityManager.merge(entity);
 			entityManager.getTransaction().commit();
 			
@@ -27,5 +26,10 @@ public class EntityService {
 		if(entity.getDocumentNumber().contains("*")) {
 			entity.setDocumentNumber(entity.getDocumentNumber() + " - " + entity.getName());
 		}
+	}
+	
+	@Override
+	protected void finalize() throws Throwable {
+	    entityManager.close();
 	}
 }

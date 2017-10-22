@@ -39,10 +39,10 @@ public class Bidding {
 	@JoinColumns({@JoinColumn(name="city"), @JoinColumn(name="state")})
 	private City city;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.bidding", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.bidding")
 	private Set<BiddingParticipant> participants = new HashSet<BiddingParticipant>();
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.bidding", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.bidding")
 	private Set<BiddingWinner> winners = new HashSet<BiddingWinner>();
 
 	public String getBidId() {

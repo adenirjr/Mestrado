@@ -17,13 +17,8 @@ public class BiddingServiceImpl implements BiddingService<Bidding>{
 	
 	private final EntityManager entityManager = HibernateProvider.getInstance().getEntityManager();
 
-	public void saveXMLContent(final String path, final String fileName) {
-
-		List<Bidding> biddings = xmlParser.parseFile(path, fileName, BiddingSAXHandler.class);
-
-		if (biddings != null) {
-			save(biddings);
-		}
+	public List<Bidding> parseXML(final String path, final String fileName) throws Exception {
+		return xmlParser.parseFile(path, fileName, BiddingSAXHandler.class);
 	}
 
 	public void save(final List<Bidding> biddings) {
@@ -37,7 +32,7 @@ public class BiddingServiceImpl implements BiddingService<Bidding>{
 			cityService.save(bidding.getCity());
 
 			entityManager.getTransaction().begin();
-			entityManager.persist(bidding);
+			entityManager.merge(bidding);
 			entityManager.getTransaction().commit();
 			
 		} catch (RollbackException e) {
