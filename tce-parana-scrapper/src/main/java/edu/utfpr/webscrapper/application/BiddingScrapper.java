@@ -14,8 +14,8 @@ import edu.utfpr.webscrapper.service.BiddingService;
  */
 public class BiddingScrapper {
 
-    private static final String YEAR = "2013";
-    private static final String SAVE_TO = "C:/Users/Adenir/Downloads/licitacoes/";
+    private static final String YEAR = "2017";
+    private static final String SAVE_TO = "C:/Users/a026710/Downloads/licitacoes";
 
     private final BiddingService openDataService = new BiddingService(new HTTPAdapter());
 
@@ -38,10 +38,6 @@ public class BiddingScrapper {
             }
 
             counter++;
-
-            /*if (counter > 10) {
-                break;
-            }*/
             
             final String fileName = getFileName(entity.getValue());
             final String absolutePath = SAVE_TO + fileName;

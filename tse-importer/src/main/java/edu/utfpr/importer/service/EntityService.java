@@ -12,11 +12,10 @@ public class EntityService {
 
     public void save(final Entity entity) {
         try {
+
             if (entity == null) {
                 return;
             }
-
-            updateDocumentNumber(entity);
 
             entityManager.getTransaction().begin();
             entityManager.merge(entity);
@@ -24,12 +23,6 @@ public class EntityService {
 
         } catch (RollbackException e) {
             entityManager.getTransaction().rollback();
-        }
-    }
-
-    private void updateDocumentNumber(final Entity entity) {
-        if (entity.getDocumentNumber().contains("*")) {
-            entity.setDocumentNumber(entity.getDocumentNumber() + " - " + entity.getName());
         }
     }
 }

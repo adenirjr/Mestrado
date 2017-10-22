@@ -60,6 +60,7 @@ public class DonationProcessor {
                 }
                 return keyValue;
             }).forEach(m -> {
+                System.out.println(m);
                 donationService.save(new DonationBuilder().setAttributes(m).setYear(YEAR).build());
             });
 
