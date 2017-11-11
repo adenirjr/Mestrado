@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.utfpr.importer.builder.DonationBuilder;
+import edu.utfpr.importer.helper.FileHelper;
 import edu.utfpr.importer.persistence.provider.HibernateProvider;
 import edu.utfpr.importer.service.DonationService;
 
@@ -35,7 +36,10 @@ public class DonationProcessor {
         final String[] metadata = getCSVHeader(PATH, CSV_FILE_NAME);
 
         HibernateProvider.getInstance().createEntityManagerFactory();
-
+        
+        FileHelper.cleanDirectory(PATH + "/temp");
+        FileHelper.splitFile(PATH, CSV_FILE_NAME, 50000000);
+        
         saveLineByLine(PATH, CSV_FILE_NAME, metadata);
 
         HibernateProvider.getInstance().close();
@@ -47,7 +51,7 @@ public class DonationProcessor {
      * @param metadata
      */
     private void saveLineByLine(final String filePath, final String fileName, final String[] metadata) {
-        try {
+        /*try {
             final Path path = Paths.get(filePath, fileName);
             Files.lines(path, StandardCharsets.ISO_8859_1).skip(1).map(line -> {
                 final Map<String, String> keyValue = new HashMap<String, String>();
@@ -67,7 +71,7 @@ public class DonationProcessor {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
+        }*/
     }
 
     /**
