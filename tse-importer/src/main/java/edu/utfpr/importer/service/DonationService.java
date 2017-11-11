@@ -17,8 +17,14 @@ public class DonationService {
 		try {
 		    entityService.save(donation.getCandidate().getId().getIndividual());
 		    entityService.save(donation.getDonator());
-		    entityService.save(donation.getCandidate().getVice());
-		    entityService.save(donation.getCandidate().getCorporate());
+		    
+		    if(donation.getCandidate().getVice() != null) {
+		    	entityService.save(donation.getCandidate().getVice());
+		    }
+		    
+		    if(donation.getCandidate().getCorporate() != null) {
+		    	entityService.save(donation.getCandidate().getCorporate());
+		    }
 		    
 		    candidateService.save(donation.getCandidate());
 		    

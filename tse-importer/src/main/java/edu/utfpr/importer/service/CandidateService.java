@@ -18,6 +18,7 @@ public class CandidateService {
 
         } catch (RollbackException e) {
             entityManager.getTransaction().rollback();
+            e.printStackTrace();
         }
     }
 }

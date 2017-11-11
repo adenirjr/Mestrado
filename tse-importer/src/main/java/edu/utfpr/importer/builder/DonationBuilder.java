@@ -75,7 +75,9 @@ public class DonationBuilder {
 			candidate.setCandidateSeq(attributes.get("Sequencial Candidato"));
 			candidate.setCity(attributes.get("Nome_Ue"));
 			candidate.setState(attributes.get("UF"));
-			candidate.setCorporate(new Corporate(attributes.get("CNPJ Prestador Conta"), null));
+			if(attributes.get("CNPJ Prestador Conta") != null) {
+				candidate.setCorporate(new Corporate(attributes.get("CNPJ Prestador Conta"), null));
+			}
 			candidate.setElectionCode(attributes.get("Cód. Eleição"));
 			candidate.setElectionDesc(attributes.get("Desc. Eleição"));
 			candidate.setParty(attributes.get("Sigla  Partido"));
