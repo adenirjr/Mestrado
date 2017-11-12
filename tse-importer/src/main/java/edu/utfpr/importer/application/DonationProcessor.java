@@ -17,12 +17,12 @@ import edu.utfpr.importer.service.DonationService;
 
 public class DonationProcessor {
 
-	private static final Long YEAR = 2012l;
 	private static final String TEMP_DIR = "/temp";
-	private static final String PATH = "C:/Users/Adenir/Downloads/prestacao_contas";
-	private static final String CSV_FILE_NAME = "receitas_candidatos_2012_PR.txt";
-	private static final String SEPARATOR = "\";\"";
-	private static final Integer NUMBER_OF_THREADS = 4;
+	private static final String PATH = "C:/Users/a026710/Downloads/prestacao_contas";
+	private static final String CSV_FILE_NAME = "ReceitaCandidato_2006.txt";
+	private static final Long YEAR = 2006l;
+	private static final String SEPARATOR = ";"; //2008 - ";" others - \";\"
+	private static final Integer NUMBER_OF_THREADS = 8;
 
 	public static void main(String args[]) {
 		final long start = System.currentTimeMillis();
@@ -54,15 +54,26 @@ public class DonationProcessor {
 			threads.add(thread);
 
 			System.out.println("Starting Thread " + threads.size() + " File: " + fileName);
+			
 			thread.start();
 
 			if (threads.size() == NUMBER_OF_THREADS) {
 				wait(threads);
 				threads.clear();
 			}
+			
+			sleep();
 		}
 		
 		wait(threads);
+	}
+	
+	private void sleep() {
+		try {
+			Thread.currentThread().sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void wait(final List<Thread> threads) {
@@ -86,10 +97,9 @@ public class DonationProcessor {
 			final Path path = Paths.get(filePath, fileName);
 			String firstLine = Files.lines(path, StandardCharsets.ISO_8859_1).findFirst().get();
 
-			return firstLine.replaceAll("\"", "").split(";");
+			return firstLine.trim().replaceAll("\"", "").split(";");
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

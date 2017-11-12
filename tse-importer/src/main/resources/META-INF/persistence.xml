@@ -6,9 +6,9 @@
 	<persistence-unit name="IMPORTER_PERSISTENCE_UNIT" transaction-type="RESOURCE_LOCAL">
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" /> <!-- DB Driver -->
-			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/mestrado" /> <!-- BD Mane -->
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/postgres" /> <!-- BD Mane -->
 			<property name="javax.persistence.jdbc.user" value="postgres" /> <!-- DB User -->
-			<property name="javax.persistence.jdbc.password" value="postgres" /> <!-- DB Password -->
+			<property name="javax.persistence.jdbc.password" value="admin" /> <!-- DB Password -->
 
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" /> <!-- DB Dialect -->
 			<property name="hibernate.hbm2ddl.auto" value="validate" /> <!-- create / create-drop / update -->

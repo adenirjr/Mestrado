@@ -1,5 +1,6 @@
 package edu.utfpr.importer.service;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
 
@@ -22,7 +23,10 @@ public class EntityService {
             entityManager.getTransaction().commit();
 
         } catch (RollbackException e) {
+        	System.out.println(entity.getDocumentNumber());
             entityManager.getTransaction().rollback();
+        } catch (EntityExistsException e) {
+        	System.out.println(entity.getDocumentNumber());
         }
     }
 }
